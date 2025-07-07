@@ -1,0 +1,32 @@
+(include "./defpoll.yuck")
+(include "./widgets.yuck")
+
+(defwidget bar []
+    (box :class "bar"
+        :vexpand true :hexpand true
+        :valign "center" :halign "fill"
+        :space-evenly true :spacing 0
+        (box :halign "center" :valign "center")
+        (clock :halign "center" :valign "center")
+        (buttons  
+            :shutdown "systemctl poweroff"
+            :reboot "systemctl reboot"
+            :logout "systemctl logout"
+            :lock "hyprlock &"
+            :shutdown_icon "󰐥" 
+            :reboot_icon   "󰜉"
+            :logout_icon   "󰍃"
+            :lock_icon     ""
+        )))
+(defwindow example
+    :monitor 0
+    :geometry (geometry :x "0%"
+        :y "20px"
+        :width "95%"
+        :height "5%"
+        :anchor "top center")
+    :exclusive false
+    :stacking "bg"
+    :windowtype "dock"
+    (bar)
+)

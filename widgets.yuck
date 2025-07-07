@@ -1,0 +1,14 @@
+(defwidget clock []
+  (label :class "clock" :text time))
+
+(defwidget buttons [shutdown  reboot logout lock
+                    reboot_icon shutdown_icon logout_icon lock_icon]
+  (box :class "btns-box" :spacing 10
+       :vexpand true :hexpand true
+       :valign "center" :halign "end"
+       :space-evenly true
+    (button :class "powerButton"  :onclick shutdown shutdown_icon)
+    (button :class "rebootButton" :onclick reboot reboot_icon)
+    (button :class "logoutButton" :onclick logout logout_icon)
+    (button :class "lockButton"   :onclick lock lock_icon)))
+
