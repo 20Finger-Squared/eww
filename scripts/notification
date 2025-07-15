@@ -1,0 +1,11 @@
+
+msg="$*"
+
+eww daemon
+eww open notif
+eww update msg="$msg"
+
+sleep 3
+
+eww close notif
+

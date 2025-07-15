@@ -2,10 +2,15 @@
     all: unset;
 }
 
+.notif-box {
+    background-color: rgb(50,48,47);
+    border: 3px solid rgb(102,92,84);
+    border-radius: 5px;
+}
+
 .example {
     background-color: transparent;
 }
-
 
 .clock {
     font-size: 65px;
