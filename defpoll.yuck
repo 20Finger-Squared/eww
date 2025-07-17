@@ -1,8 +1,0 @@
-(defpoll time :interval "1s"
-  "date +'%H:%M:%S'")
-(defpoll workspaces :interval "1s"
-    "hyprctl workspaces | grep 'Focused: yes' | awk '{print $1}' | sed 's/://' ")
-(defpoll cpu_usage :interval "1s"
-  "top -bn2 | grep '%Cpu' | tail -1 | grep -P '(....|...) id,' | awk '{print 100-$8}'")
-(deflisten playing
-    "playerctl --follow metadata --format {{title}}")
