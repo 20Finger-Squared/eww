@@ -1,0 +1,42 @@
+@use "../colors" as *;
+.clock {
+  color: $fg-strong;
+  font-size: 6em;
+  font-weight: 900;
+  margin-left: 1em;
+  margin-top: 1em;
+}
+
+.cir-text {
+  font-weight: 900;
+  font-size: 1.2em;
+}
+.pc-info {
+  margin-right: 20px;
+  margin-top: 20px;
+  color: $fg-strong;
+  .filler {
+    background-color: $bg4;
+  }
+  .power-button {
+    font-size: 6em;
+    transition: font-size 0.2s, color 0.2s;
+    color: $fg-strong;
+  }
+  .power-button:hover {
+    font-size: 9.2em;
+    color: $red-strong;
+  }
+  .disk-bar {
+    color: $aqua-strong;
+    background-color: $bg1;
+  }
+  .cpu-bar  {
+    color: $yellow-strong;
+    background-color: $bg2;
+  }
+  .ram-bar  {
+    color: $blue-strong;
+    background-color: $bg3;
+  }
+}
