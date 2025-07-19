@@ -1,0 +1,19 @@
+(defwidget bar [] 
+    (centerbox :class "bar" :orientation "v"
+        (box :class "top"   
+        )
+        (box :class "middle"
+            (label :text {formattime(EWW_TIME, "%H\\n%M\\n%S")}
+                :class "v-clock"
+            )
+        )
+        (box :class "bottom"
+
+            ( label :text active-workspace
+                :valign "end"
+                :class "active-workspace"
+            )
+        )
+    )
+)
+
