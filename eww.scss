@@ -1,76 +1,7 @@
-// Gruvbox Dark Palette (muted / strong)
-$bg-muted: #282828;
-$bg-strong: #928374;
+@use "desktop/style";
+@use "bar/bar";
 
-$red-muted: #CC241D;
-$red-strong: #FB4934;
-
-$green-muted: #98971A;
-$green-strong: #B8BB26;
-
-$yellow-muted: #D79921;
-$yellow-strong: #FABD2F;
-
-$blue-muted: #458588;
-$blue-strong: #83A598;
-
-$purple-muted: #B16286;
-$purple-strong: #D3869B;
-
-$aqua-muted: #689D6A;
-$aqua-strong: #8EC07C;
-
-$orange-muted: #D65D0E;
-$orange-strong: #FE8019;
-
-$fg-muted: #A89984;
-$fg-strong: #EBDBB2;
-
-$bg0-hard: #1D2021;
-$bg0-soft: #32302F;
-$fg0: #FBF1C7;
-
-$bg1: #3C3836;
-$fg1: #EBDBB2;
-
-$bg2: #504945;
-$fg2: #D5C4A1;
-
-$bg3: #665C54;
-$fg3: #BDAE93;
-
-$bg4: #7C6F64;
-$fg4: #A89984;
 * {
     all: unset; 
     font-family: "Jetbrain Mono NF", monospace;
-}
-
-.ram-bar, .cpu-bar, .spu-bar{
-  label { 
-    color: $fg-strong;
-    background-color: $bg2;
-  }
-  circular-progress {
-    background-color: $bg1;
-  }
-}
-.cpu-bar {
-  label {
-    font-size: 6em; 
-  }
-  color: $aqua-strong;
-}
-.ram-bar {
-  label {
-    font-size: 1.4em; 
-  }
-  font-size: 2em; 
-  color: $blue-strong;
-}
-.spu-bar {
-  label {
-    font-size: 2.8em; 
-  }
-  color: $yellow-strong;
 }
