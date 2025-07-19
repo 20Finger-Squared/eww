@@ -1,43 +1,7 @@
-(include "./desktop/variables.yuck")
 (include "./desktop/widgets.yuck")
 (include "./desktop/windows.yuck")
 
-(defwidget clock []
-    (label :class "clock" :text {formattime(EWW_TIME,"%H:%M:%S") })
-)
+(include "./bar/widgets.yuck")
+(include "./bar/windows.yuck")
 
-(defwidget text-circular-progress [progress text class]
-    (overlay :class class 
-        (circular-progress :thickness 30 :start-at 75 :value progress :class class
-        (label :text text :wrap true))
-    )
-)
-
-(defwindow desktop
-    :monitor 0
-    :geometry (geometry
-        :width "100%"
-        :height "100%"
-        :anchor "center"
-    )
-    :stacking "bg" ;; putting this in foreground makes the mouse useless
-
-    (box
-        :vexpand true
-        :hexpand true
-        (box)
-        (box)
-        (box :orientation "v"
-            (text-circular-progress 
-            :progress {EWW_CPU?.["avg"]} 
-            :text " Avg\\nusage" 
-            :class "cpu-bar")
-            (text-circular-progress 
-                :progress {(EWW_RAM?.["used_mem"]/EWW_RAM?.["total_mem"]) * 100} 
-                :text "Memory\\nusage"
-                :class "ram-bar")
-            (text-circular-progress
-            :progress {(EWW_DISK["/"]["used"]/EWW_DISK["/"]["total"]) * 100}
-            :text "Storage\\n Used"
-            :class "spu-bar")
-        )))
+(include "./vars.yuck")
