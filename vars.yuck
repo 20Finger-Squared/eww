@@ -1,7 +1,4 @@
-(deflisten active-workspace " 
-    while true; do
-        hyprctl activeworkspace | sed -n 's/.*(\\(.*\\)).*/\\1/p' 
-        sleep 0.1
-    done
-    ")
-
+(defpoll active-workspace :interval       "100ms" "hyprctl activeworkspace -j | jq -r .id | sed 's/./&\\\\n/g'")
+(defpoll window-counter :interval         "100ms" "hyprctl activeworkspace -j | jq -r .windows | sed 's/./&\\\\n/g'")
+(defpoll special-workspace-open :interval "100ms" "hyprctl workspaces -j | jq -r '.[].name' | grep 'special' -q && echo 'true' || echo 'false'")
+(defpoll volume :interval "100ms" "pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '\\d+(?=%)' | head -n1")
