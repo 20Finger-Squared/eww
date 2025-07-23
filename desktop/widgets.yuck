@@ -5,7 +5,6 @@
         ( label :angle { angle*-1 } :text text)))
 
 (defwidget clock [class]
-    ;(label :class class :text {formattime(EWW_TIME,"%H:%M:%S") })
     (label :class class :text {formattime(EWW_TIME,"%v\\n%X") }))
 
 (defwidget pc-info []
