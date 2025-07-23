@@ -1,19 +1,38 @@
+
+(defwidget special-workspace-indicator []
+    (box :valign "end"
+    :visible special-workspace-open
+    :active special-workspace-open
+    (label :text "S"
+            :class "special-workspace-indicator"
+        ))
+)
+
+(defwidget window-count []
+    (box :valign "end"
+    ( label :text window-counter
+        :class "window-count"))
+)
+
+(defwidget workspaces-id []
+    (box :valign "end"
+    ( label :text active-workspace
+        :valign "end"
+        :class "active-workspace"))
+)
+
 (defwidget bar [] 
     (centerbox :class "bar" :orientation "v"
-        (box :class "top"   
-        )
-        (box :class "middle"
-            (label :text {formattime(EWW_TIME, "%H\\n%M\\n%S")}
-                :class "v-clock"
-            )
-        )
-        (box :class "bottom"
+        (box :class "top" :orientation "v")
 
-            ( label :text active-workspace
-                :valign "end"
-                :class "active-workspace"
-            )
+        (box :class "middle" :orientation "v")
+
+        (box :class "bottom" :orientation "v" 
+
+            (box :valign "end" :orientation "v"   
+                ( window-count )
+                ( special-workspace-indicator )
+                ( workspaces-id ))
         )
     )
 )
-

@@ -12,11 +12,25 @@
 .v-clock {
   font-weight: bold;
 }
+
+.special-workspace-indicator {
+  background-color: $yellow-muted;
+  border: 3px solid $yellow-strong;
+  margin: 1px;
+}
+
 .active-workspace {
   background-color: $red-muted;
   border: 3px solid $red-strong;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+  margin: 1px;
+}
+.window-count {
+  background-color: $aqua-muted;
+  border: 3px solid $aqua-strong;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   margin: 1px;
 }
 
