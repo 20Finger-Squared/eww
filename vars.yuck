@@ -9,6 +9,9 @@
   :initial "0"
   `./scripts/volume.sh`)
 
+(defvar volume-bar-revealed false)
+(defvar brightness-bar-revealed false)
+
 (defpoll has_brightness
   :interval "60s"  ; Check once per minute
   :initial "false"
@@ -24,3 +27,19 @@
   else
     echo "0"
   fi`)
+
+(defpoll vertical-brightness
+  :interval "1s"
+  :initial "0"
+  `
+  FILE=$(ls /sys/class/backlight/*/brightness | head -1)
+  if [ -f "$FILE" ]; then
+    MAX=$(cat "$(dirname "$FILE")/max_brightness")
+    CURR=$(cat "$FILE")
+    PERCENT=$(( CURR * 100 / MAX ))
+    echo "$PERCENT" | sed 's/./&\\n/g'
+  else
+    echo "0" | sed 's/./&\\n/g'
+  fi
+  `
+)

@@ -42,48 +42,29 @@
         :show-truncated false
         :text "")))
 
-;; Battery bar widget (shows if any battery exists)
-(defwidget battery-bar []
-  (usage-percentage :value {EWW_BATTERY["BAT0"]["capacity"] ?: EWW_BATTERY["BAT1"]["capacity"] ?: 0}))
-
-;; Brightness bar widget (only shows if brightness control exists)
-(defwidget brightness-bar []
-  (box :orientation "v" :class "brightness-bar"
-       :visible {has_brightness == "true"}
-    (label :text "☀️ ${brightness_percent}%")
-    (scale :onchange "echo {} | awk '{print int($1)}' | xargs -I % sh -c 'echo $(($(cat /sys/class/backlight/*/max_brightness | head -1) * % / 100)) | tee /sys/class/backlight/*/brightness > /dev/null'"
-           :value brightness_percent
-           :min 0
-           :max 100
-           :orientation "v"
-           :active true)))
-
-(defwidget scale-test []
-      (revealer
-        :transition "slideup"
-        :reveal volume-bar-revealed
-        :duration "500ms"
-        (scale :onchange "pactl set-sink-volume 0 $(printf %.0f {})%"
-               :min 0
-               :max 100
-               :value volume
-               :class "volume-percentage-bar"
-               :orientation "v"
-               :active true)))
-
-(defvar volume-bar-revealed false)
-
-(defwidget volume-percentage []
-  (eventbox
-    :class "volume-box"
-    :onhover "eww update volume-bar-revealed=true"
-    :onhoverlost "eww update volume-bar-revealed=false"
-    (box
-      :orientation "v"
-      :space-evenly false
-          (label :text "${vertical-volume}%")
-        (scale-test))
-      ))
+(defwidget reaveal-percentage [onhover onhoverlost text transition revealed revealer-duration scale-onchange eventbox-class scale-class scale-value active]
+ (eventbox
+    :active active
+    :visible active
+   :class eventbox-class
+   :onhover onhover
+   :onhoverlost onhoverlost
+   (box
+     :orientation "v"
+     :space-evenly false
+         (label :show-truncated false :text text)
+     (revealer
+       :transition transition
+       :reveal revealed
+       :duration revealer-duration
+       (scale :onchange scale-onchange
+              :min 0
+              :max 101
+              :value scale-value
+              :class scale-class
+              :orientation "v"
+              :active true)))
+     ))
 
 (defwidget pc-usage []
     (box
@@ -104,6 +85,8 @@
     )
 )
 
+
+; (defwidget volume-percentage [onhover onhoverlost text transition revealed revealer-duration scale-onchange eventbox-class scale-class scale-value]
 (defwidget top []
  (box :class "top"
   :valign "start"
@@ -111,49 +94,75 @@
   :hexpand true
   :vexpand true
   :orientation "v"
-  ( volume-percentage )
- ))
+ ( reaveal-percentage
+   :onhover ""
+   :onhoverlost ""
+   :text "${vertical-volume}%"
+   :transition "slideup"
+   :revealed volume-bar-revealed
+   :revealer-duration "500ms"
+   :scale-onchange "pactl set-sink-volume 0 $(printf %.0f {})%"
+   :eventbox-class "volume-box"
+   :scale-class "volume-percentage-bar"
+   :scale-value volume
+   :active true
+ )
 
-(defwidget middle []
- (box :class "middle"
-  :valign "center"
-  :halign "fill"
-  :hexpand true
-  :vexpand true
-  ; with the separator look for box-drawing characters as they don't have any empty spacing
-  (clock :separator "━━" :spacing -7)
- ))
+  ( reaveal-percentage
+    :onhover ""
+    :onhoverlost ""
+    :text "${vertical-brightness}\\n%"
+    :transition "slideup"
+    :revealed brightness-bar-revealed
+    :revealer-duration "500ms"
+    :scale-onchange "brightnessctl s {}%"
+    :eventbox-class "brightness-box"
+    :scale-class "brightness-percentage-bar"
+    :scale-value brightness_percent
+    :active has_brightness
+  )
+  ))
 
-(defwidget bottom []
-(box :class "bottom"
- :valign "end"
- :halign "fill"
- :hexpand true
- :vexpand true
- :orientation "v"
- (pc-usage)
-    (ws :reverse false)
-))
+     (defwidget middle []
+      (box :class "middle"
+       :valign "center"
+       :halign "fill"
+       :hexpand true
+       :vexpand true
+       ; with the separator look for box-drawing characters as they don't have any empty spacing
+       (clock :separator "━━" :spacing -7)
+      ))
 
-(defwidget bar []
-; probably could've use a center-box but i forgot about it when i made this widget and this works
-(box :class "bar"
- :orientation "v"
- :hexpand true
- :vexpand true
- (top)
- (middle)
- (bottom)
-)
-)
+     (defwidget bottom []
+      (box :class "bottom"
+       :valign "end"
+       :halign "fill"
+       :hexpand true
+       :vexpand true
+       :orientation "v"
+       (pc-usage)
+       (ws :reverse false)
+      ))
 
-(defwindow barWindow
- :monitor 0
- :geometry (geometry :x "0%"
-     :y "20px"
-     :width "30px"
-     :height "100%"
-     :anchor "center left")
- :stacking "fg"
- :exclusive true
- ( bar ))
+        (defwidget bar []
+         ; probably could've use a center-box but i forgot about it when i made this widget and this works
+         (box :class "bar"
+          :orientation "v"
+          :hexpand true
+          :vexpand true
+          (top)
+          (middle)
+          (bottom)
+         )
+        )
+
+         (defwindow barWindow
+          :monitor 0
+          :geometry (geometry :x "0%"
+              :y "20px"
+              :width "30px"
+              :height "100%"
+              :anchor "center left")
+          :stacking "fg"
+          :exclusive true
+          ( bar ))

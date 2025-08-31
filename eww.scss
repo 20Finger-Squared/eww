@@ -19,6 +19,50 @@ tooltip {
   color: $fg1;
 }
 
+.brightness-percentage-bar {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  min-height: 100px;
+
+  highlight {
+    background-color: $blue-muted;
+    padding: 0.3em;
+    border-radius: 0.2em;
+  }
+
+  trough {
+    background-color: $bg2;
+    border-radius: 0.2em;
+  }
+}
+
+.brightness-percentage-bar {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  min-height: 100px;
+
+  highlight {
+    background-color: $blue-muted;
+    padding: 0.3em;
+    border-radius: 0.2em;
+  }
+
+  trough {
+    background-color: $bg2;
+    border-radius: 0.2em;
+  }
+}
+
+.brightness-box {
+  background-color: $bg1;
+  border: 1px solid $bg3;
+
+  label {
+    color: $yellow-strong;
+    font-size: 1.2em;
+  }
+}
+
 .volume-percentage-bar {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -45,7 +89,6 @@ tooltip {
     font-size: 1.2em;
   }
 }
-
 
 .clock {
   padding-top: 5px;
