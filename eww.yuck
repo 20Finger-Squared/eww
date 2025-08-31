@@ -1,7 +1,154 @@
-(include "./desktop/widgets.yuck")
-(include "./desktop/windows.yuck")
-
-(include "./bar/widgets.yuck")
-(include "./bar/windows.yuck")
-
 (include "./vars.yuck")
+
+(defwidget ws [?reverse]
+ (box :class "workspaces"
+  :spacing 5
+  :orientation "v"
+  ; If 'reverse' is empty, default to the normal workspace order.
+  ; Otherwise, use the value of 'reverse' to decide whether to reverse.
+  (for workspace in { reverse != "" ? reverse ? jq(workspaces, "reverse") : workspaces : workspaces}
+   (eventbox
+    :cursor "pointer"
+    :onclick "swaymsg workspace ${workspace.name}"
+    :onrightclick "swaymsg move workspace ${workspace.name}; swaymsg workspace ${workspace.name}"
+    :onscroll {{}=="up" ? "swaymsg workspace ${workspace.name + 1}":"swaymsg workspace ${workspace.name - 1}"}
+    (label :text {workspace.name + ""}
+     :class {workspace.focused ? "WSfocused" : "WSunfocused"})))))
+
+(defwidget clock [separator spacing]
+      (box
+         :orientation "v"
+         :class "clock"
+         :spacing { spacing }
+      (label :class "hour"   :text {formattime(EWW_TIME, "%H")})
+      (label :class "separator" :text {separator})
+      (label :class "minute" :text {formattime(EWW_TIME, "%M")})
+      (label :class "separator" :text {separator})
+      (label :class "second" :text {formattime(EWW_TIME, "%S")})))
+
+(defwidget usage-percentage [value class tooltip]
+    (circular-progress
+      :halign "fill"
+      :vexpand true
+      :hexpand true
+      :value value
+      :start-at 75
+      :thickness 5
+      :class class
+      :tooltip {tooltip + " %"+ round(value, 2) }
+      (label
+        :class "dot"
+        :limit-width 2
+        :show-truncated false
+        :text "")))
+
+;; Battery bar widget (shows if any battery exists)
+(defwidget battery-bar []
+  (usage-percentage :value {EWW_BATTERY["BAT0"]["capacity"] ?: EWW_BATTERY["BAT1"]["capacity"] ?: 0}))
+
+;; Brightness bar widget (only shows if brightness control exists)
+(defwidget brightness-bar []
+  (box :orientation "v" :class "brightness-bar"
+       :visible {has_brightness == "true"}
+    (label :text "☀️ ${brightness_percent}%")
+    (scale :onchange "echo {} | awk '{print int($1)}' | xargs -I % sh -c 'echo $(($(cat /sys/class/backlight/*/max_brightness | head -1) * % / 100)) | tee /sys/class/backlight/*/brightness > /dev/null'"
+           :value brightness_percent
+           :min 0
+           :max 100
+           :orientation "v"
+           :active true)))
+
+(defwidget scale-test []
+      (revealer
+        :transition "slideup"
+        :reveal volume-bar-revealed
+        :duration "500ms"
+        (scale :onchange "pactl set-sink-volume 0 $(printf %.0f {})%"
+               :min 0
+               :max 100
+               :value volume
+               :class "volume-percentage-bar"
+               :orientation "v"
+               :active true)))
+
+(defvar volume-bar-revealed false)
+
+(defwidget volume-percentage []
+  (eventbox
+    :class "volume-box"
+    :onhover "eww update volume-bar-revealed=true"
+    :onhoverlost "eww update volume-bar-revealed=false"
+    (box
+      :orientation "v"
+      :space-evenly false
+          (label :text "${vertical-volume}%")  ; Fixed this line
+        (scale-test))
+      ))
+
+(defwidget pc-usage []
+    (box
+        :class "pc-usage"
+        :halign "fill"
+        :valign "end"
+        :vexpand true
+        :hexpand true
+        :height 50
+        :orientation "v"
+        :spacing 0
+        (usage-percentage :value {( (EWW_RAM?.["used_mem"]/EWW_RAM?.["total_mem"]) * 100 )} :class "ram" :tooltip "ram usage")
+        (usage-percentage :value { EWW_CPU?.["avg"] } :class "cpu" :tooltip "cpu usage")
+    )
+)
+
+(defwidget top []
+ (box :class "top"
+  :valign "start"
+  :halign "fill"
+  :hexpand true
+  :vexpand true
+  ( volume-percentage )
+ ))
+
+(defwidget middle []
+ (box :class "middle"
+  :valign "center"
+  :halign "fill"
+  :hexpand true
+  :vexpand true
+  ; with the separator look for box-drawing characters as they don't have any empty spacing
+  (clock :separator "━━" :spacing -7)
+ ))
+
+(defwidget bottom []
+(box :class "bottom"
+ :valign "end"
+ :halign "fill"
+ :hexpand true
+ :vexpand true
+ :orientation "v"
+ (pc-usage)
+    (ws :reverse false)
+))
+
+(defwidget bar []
+; probably could've use a center-box but i forgot about it when i made this widget and this works
+(box :class "bar"
+ :orientation "v"
+ :hexpand true
+ :vexpand true
+ (top)
+ (middle)
+ (bottom)
+)
+)
+
+(defwindow barWindow
+ :monitor 0
+ :geometry (geometry :x "0%"
+     :y "20px"
+     :width "30px"
+     :height "100%"
+     :anchor "center left")
+ :stacking "fg"
+ :exclusive true
+ ( bar ))

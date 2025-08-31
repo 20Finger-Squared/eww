@@ -1,4 +1,26 @@
-(defpoll active-workspace :interval       "100ms" "hyprctl activeworkspace -j | jq -r .id | sed 's/./&\\\\n/g'")
-(defpoll window-counter :interval         "100ms" "hyprctl activeworkspace -j | jq -r .windows | sed 's/./&\\\\n/g'")
-(defpoll special-workspace-open :interval "100ms" "hyprctl workspaces -j | jq -r '.[].name' | grep 'special' -q && echo 'true' || echo 'false'")
-(defpoll volume :interval "100ms" "pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '\\d+(?=%)' | head -n1")
+(deflisten workspaces :initial "[]"
+ "./scripts/workspaces.sh")
+
+(deflisten vertical-volume
+  :initial "0"
+  `./scripts/vertical-volume.sh`)
+
+(deflisten volume
+  :initial "0"
+  `./scripts/volume.sh`)
+
+(defpoll has_brightness
+  :interval "60s"  ; Check once per minute
+  :initial "false"
+  `[ -f /sys/class/backlight/*/brightness ] && echo "true" || echo "false"`)
+
+(defpoll brightness_percent
+  :interval "1s"
+  :initial "0"
+  `if [ -f /sys/class/backlight/*/brightness ]; then
+    MAX=$(cat /sys/class/backlight/*/max_brightness | head -1)
+    CURR=$(cat /sys/class/backlight/*/brightness | head -1)
+    echo $(( CURR * 100 / MAX ))
+  else
+    echo "0"
+  fi`)
