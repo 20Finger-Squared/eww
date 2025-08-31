@@ -81,7 +81,7 @@
     (box
       :orientation "v"
       :space-evenly false
-          (label :text "${vertical-volume}%")  ; Fixed this line
+          (label :text "${vertical-volume}%")
         (scale-test))
       ))
 
@@ -95,6 +95,10 @@
         :height 50
         :orientation "v"
         :spacing 0
+	(usage-percentage
+	:value {EWW_BATTERY["BAT0"]["capacity"] ?: EWW_BATTERY["BAT1"]["capacity"] ?: 0}
+	:class "battery"
+	:tooltip "Battery used")
         (usage-percentage :value {( (EWW_RAM?.["used_mem"]/EWW_RAM?.["total_mem"]) * 100 )} :class "ram" :tooltip "ram usage")
         (usage-percentage :value { EWW_CPU?.["avg"] } :class "cpu" :tooltip "cpu usage")
     )
@@ -106,6 +110,7 @@
   :halign "fill"
   :hexpand true
   :vexpand true
+  :orientation "v"
   ( volume-percentage )
  ))
 
