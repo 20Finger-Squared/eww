@@ -1,0 +1,182 @@
+(include "./vars.yuck")
+
+(defwidget ws [?reverse]
+ (box :class "workspaces"
+  :spacing 5
+  :orientation "v"
+  ; If 'reverse' is empty, default to the normal workspace order.
+  ; Otherwise, use the value of 'reverse' to decide whether to reverse.
+  (for workspace in { reverse != "" ? reverse ? jq(workspaces, "reverse") : workspaces : workspaces}
+   (eventbox
+    :cursor "pointer"
+    :onclick "swaymsg workspace ${workspace.name}"
+    :onrightclick "swaymsg move workspace ${workspace.name}; swaymsg workspace ${workspace.name}"
+    :onscroll {{}=="up" ? "swaymsg workspace ${workspace.name + 1}":"swaymsg workspace ${workspace.name - 1}"}
+    (label :text {workspace.name + ""}
+     :class {workspace.focused ? "WSfocused" : "WSunfocused"})))))
+
+(defwidget poweroptions []
+ (eventbox
+  :cursor "pointer"
+  :onhover "eww update power-menu-revealed=true"
+  :onhoverlost "eww update power-menu-revealed=false"
+  (box
+   :orientation "v"
+   :space-evenly false
+   (eventbox
+      :cursor "pointer"
+      :onclick "poweroff"
+   (label :text "⏻"
+    :class "poweroff"
+    :halign "fill"
+    :valign "center"))
+   (revealer
+    :transition "crossfade"
+    :reveal power-menu-revealed
+    :duration "400ms"
+    (box :orientation "v" :spacing 5 :space-evenly false :valign "start" :halign "fill"
+     (eventbox :cursor "pointer" :onclick "reboot"
+      (label :text ""
+       :class "reboot"
+       :halign "fill"
+       :valign "center"))
+     (eventbox :cursor "pointer" :onclick "swaymsg exit"
+      (label :text "󰍃"
+       :class "logout"
+       :halign "fill"
+       :valign "center")))))))
+
+(defwidget clock [separator spacing]
+      (box
+         :orientation "v"
+         :class "clock"
+         :spacing { spacing }
+      (label :class "hour"   :text {formattime(EWW_TIME, "%H")})
+      (label :class "separator" :text {separator})
+      (label :class "minute" :text {formattime(EWW_TIME, "%M")})
+      (label :class "separator" :text {separator})
+      (label :class "second" :text {formattime(EWW_TIME, "%S")})))
+
+(defwidget usage-percentage [value class tooltip]
+    (circular-progress
+      :halign "fill"
+      :vexpand true
+      :hexpand true
+      :value value
+      :start-at 75
+      :thickness 5
+      :class class
+      :tooltip {tooltip + " %"+ round(value, 2) }
+      (label
+        :class "dot"
+        :limit-width 2
+        :show-truncated false
+        :text "")))
+
+(defwidget reaveal-percentage [onhover onhoverlost text transition revealed revealer-duration scale-onchange eventbox-class scale-class scale-value active]
+ (eventbox
+    :active active
+    :visible active
+   :class eventbox-class
+   :onhover onhover
+   :onhoverlost onhoverlost
+   (box
+     :orientation "v"
+     :space-evenly false
+         (label :show-truncated false :text text)
+     (revealer
+       :transition transition
+       :reveal revealed
+       :duration revealer-duration
+       (scale :onchange scale-onchange
+              :min 0
+              :max 101
+              :value scale-value
+              :class scale-class
+              :orientation "v"
+              :active true)))
+     ))
+
+(defwidget pc-usage []
+    (box
+        :class "pc-usage"
+        :halign "fill"
+        :valign "end"
+        :vexpand true
+        :hexpand true
+        :height 50
+        :orientation "v"
+        :spacing 0
+
+        (usage-percentage :value {( (EWW_RAM?.["used_mem"]/EWW_RAM?.["total_mem"]) * 100 )} :class "ram" :tooltip "ram usage")
+        (usage-percentage :value { EWW_CPU?.["avg"] } :class "cpu" :tooltip "cpu usage")
+    )
+)
+
+(defwidget top []
+ (box :class "top"
+  :valign "start"
+  :halign "fill"
+  :hexpand true
+  :vexpand true
+  :orientation "v"
+  :space-evenly false
+  (label :vexpand false :hexpand false :valign "start" :halign "start" :class "volume" :show-truncated false :text {volume>=100 ? volume : volume+"%"})
+  (poweroptions)
+  ))
+
+ (defwidget middle []
+  (box :class "middle"
+   :valign "center"
+   :halign "fill"
+   :hexpand true
+   :vexpand true
+   :orientation "v"
+   (box
+   :valign "center"
+   :halign "fill"
+   :hexpand true
+   :vexpand true
+   )
+   (clock :separator "━━" :spacing -7)
+   (box
+   :valign "center"
+   :halign "fill"
+   :hexpand true
+   :vexpand true
+   )
+  ))
+
+ (defwidget bottom []
+  (box :class "bottom"
+   :valign "end"
+   :halign "fill"
+   :hexpand true
+   :vexpand true
+   :orientation "v"
+   (pc-usage)
+   (ws :reverse false)
+  ))
+
+    (defwidget bar []
+     ; probably could've use a center-box but i forgot about it when i made this widget and this works
+     (box :class "bar"
+      :orientation "v"
+      :hexpand true
+      :vexpand true
+      (top)
+      (middle)
+      (bottom)
+     )
+    )
+
+(defwindow barWindow
+:monitor 0
+:geometry (geometry :x "0%"
+:y "20px"
+:width "30px"
+:height "100%"
+:anchor "center right")
+:stacking "fg"
+:exclusive true
+( bar ))

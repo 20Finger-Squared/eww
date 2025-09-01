@@ -1,0 +1,124 @@
+@use "../colors.scss" as *;
+
+* {
+  all: unset;
+  font-family: JetbrainsMono NF;
+}
+
+tooltip {
+  background-color: $bg2;
+  color: $fg1;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 20px;
+  border: 1px solid $bg3;
+}
+
+.bar {
+  background-color: $bg-muted;
+  color: $fg1;
+}
+
+.volume {
+  color: $aqua-strong;
+  margin: 0px;
+  border-bottom: 3px inset $bg1;
+  border-radius: 3px;
+  background-color: $bg1;
+  font-size: 1.1em;
+}
+
+.clock {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 1.2em;
+
+  border-bottom: 4px solid $bg2;
+  border-radius: 3px;
+  background-color: $bg1;
+
+  .hour,
+  .minute,
+  .second,
+  .separator {
+    color: $aqua-strong;
+  }
+}
+
+.pc-usage {
+  margin-bottom: 10px;
+
+  .cpu,
+  .ram {
+    margin-left: 3px;
+    margin-bottom: 10px;
+
+    .dot {
+      margin: 10px;
+      margin-left: 2px;
+      font-size: 20px;
+    }
+  }
+
+  .cpu {
+    .dot {
+      color: $orange-strong;
+    }
+
+    background-color: $bg2;
+    color: $orange-muted;
+  }
+
+  .ram {
+    .dot {
+      color: $blue-strong;
+    }
+
+    background-color: $bg2;
+    color: $blue-muted;
+  }
+}
+
+.workspaces {
+  border-radius: 2px;
+
+  .WSfocused,
+  .WSunfocused {
+    font-size: 1.2em;
+    background-color: $bg1;
+    border-left: 3px solid $fg4;
+  }
+
+  .WSfocused {
+    color: $yellow-strong;
+    border-left-color: $yellow-strong;
+  }
+
+  .WSunfocused {
+    color: $fg4;
+  }
+}
+
+.poweroff {
+  font-size: 1.4em;
+  margin: 2px;
+  margin-right: 3px;
+  margin-bottom: 15px;
+  color: $red-strong;
+}
+
+.reboot {
+  font-size: 1.4em;
+  margin: 2px;
+  margin-bottom: 10px;
+  margin-right: 3px;
+  color: $aqua-strong;
+}
+
+.logout {
+  font-size: 1.4em;
+  margin: 2px;
+  margin-right: 3px;
+  margin-bottom: 10px;
+  color: $yellow-strong;
+}
