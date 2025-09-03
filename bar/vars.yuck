@@ -1,9 +1,0 @@
-(deflisten workspaces :initial "[]"
- "../scripts/workspaces.sh")
-
-(deflisten volume
-  :initial "0"
-  `../scripts/volume.sh`)
-
-(defvar volume-bar-revealed false)
-(defvar power-meny-revealed false)
