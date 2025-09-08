@@ -129,7 +129,7 @@
   :vexpand true
   :orientation "v"
   :space-evenly false
-  (label :vexpand false :hexpand false :valign "start" :halign "start" :class "volume" :show-truncated false :text {volume>=100 ? volume : volume+"%"})
+  (label :vexpand false :hexpand false :valign "start" :halign "fill" :class "volume" :show-truncated false :text {volume>=100 ? volume : volume+"%"})
   (poweroptions)
   ))
 
