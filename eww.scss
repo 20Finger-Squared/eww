@@ -1,2 +1,8 @@
 @use "./colors.scss" as *;
 @use "./bar/eww.scss" as *;
+
+* {
+  all: unset;
+  font-family: JetbrainsMono NF;
+  color: $fg-strong;
+}
