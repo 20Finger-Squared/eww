@@ -118,10 +118,10 @@
 
         (usage-percentage :value {( (EWW_RAM?.["used_mem"]/EWW_RAM?.["total_mem"]) * 100 )} :class "ram" :tooltip "ram usage")
         (usage-percentage :value { EWW_CPU?.["avg"] } :class "cpu" :tooltip "cpu usage")
-        (box
-        :active {EWW_BATTERY?.["total_avg"] ?: false}
-        :visible {EWW_BATTERY?.["total_avg"] ?: false}
-        (usage-percentage :value { EWW_BATTERY?.["total_avg"] } :class "battery" :tooltip "battery usage"))
+        (box ; since eww doesn't like us having basic features to detect null except the '?:' we have to use this mess
+        :active {EWW_BATTERY?.["total_avg"] == EWW_BATTERY?.[""]? false : true}
+        :visible {EWW_BATTERY?.["total_avg"] == EWW_BATTERY?.[""]? false : true}
+        (usage-percentage :value { EWW_BATTERY?.["total_avg"] } :class "battery" :tooltip "battery usage" :prepended-tooltip { EWW_BATTERY?.["BAT0"]["status"] } ))
     )
 )
 
