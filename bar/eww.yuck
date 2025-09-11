@@ -39,7 +39,7 @@
     :halign "fill"
     :valign "center"))
    (revealer
-    :transition "crossfade"
+    :transition "slideup"
     :reveal power-menu-revealed
     :duration "400ms"
     (box :orientation "v" :spacing 5 :space-evenly false :valign "start" :halign "fill"
