@@ -65,7 +65,7 @@
       (label :class "separator" :text {separator})
       (label :class "second" :text {formattime(EWW_TIME, "%S")})))
 
-(defwidget usage-percentage [value class tooltip]
+(defwidget usage-percentage [value class tooltip ?prepended-tooltip]
     (circular-progress
       :halign "fill"
       :vexpand true
@@ -74,7 +74,7 @@
       :start-at 75
       :thickness 5
       :class class
-      :tooltip {tooltip + " %"+ round(value, 2) }
+      :tooltip {prepended-tooltip == EWW_BATTERY?.[""]? tooltip + " %"+ round(value, 2) : prepended-tooltip + "" + tooltip + " %"+ round(value, 2) }
       (label
         :class "dot"
         :limit-width 2
