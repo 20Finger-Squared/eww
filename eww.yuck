@@ -1,1 +1,2 @@
 (include "./bar/eww.yuck")
+(include "./desktop/eww.yuck")

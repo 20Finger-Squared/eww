@@ -1,0 +1,40 @@
+(defvar user 'whoami')
+
+(defwidget profile []
+    (box :halign "start" :valign "start" :class "profile"
+        ( label :text {get_env("USER")}
+        :halign "start"
+        :valign "center")
+    )
+)
+
+(defwidget datetime []
+    (box :halign "start" :valign "start" :class "datetime"
+    (label :text {formattime(EWW_TIME, "%H:%M | %-H %A %b | %m/%d/%Y")} )
+    )
+)
+
+
+(defwindow desktop
+    :monitor 0
+    :geometry (geometry :x "1%"
+            :y "5%"
+            :width  "40%"
+            :height "90%"
+            :anchor "top left")
+    :stacking "bg"
+    :exclusive false
+    (centerbox
+    :class "window"
+    :orientation "v"
+        (box :class "top-info"
+            :space-evenly false
+            :halign "fill"
+            :valign "start"
+            (profile)
+            (datetime)
+        )
+        (box)
+        (box)
+    )
+)

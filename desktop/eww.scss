@@ -1,0 +1,48 @@
+@use "../colors.scss" as *;
+
+.window {
+  background-color: $bg1;
+  background: $bg1;
+  background-color: transparentize($bg1, 0.15);
+  border: 0.2em solid $bg3;
+  border-top-left-radius: 3em;
+  border-top-right-radius: 3em;
+  border-bottom-left-radius: 0.6em;
+  border-bottom-right-radius: 0.6em;
+  padding: 0.6em;
+}
+
+.top-info {
+  background-color: $bg2;
+  border-top-left-radius: 2em;
+  border-top-right-radius: 2em;
+
+}
+
+.profile {
+  border: 3px solid $aqua-strong;
+  border-right-width: 0px;
+  border-top-left-radius: 2em;
+  background-color: $bg1;
+
+  label {
+    font-size: 1.5em;
+    margin: 0.5em;
+    font-weight: bold;
+    color: $aqua-strong;
+  }
+}
+
+.datetime {
+  border: 3px solid $aqua-strong;
+  border-left-width: 0px;
+  border-top-right-radius: 2em;
+  background-color: $bg1;
+
+  label {
+    font-size: 1.5em;
+    margin: 0.5em;
+    font-weight: bold;
+    color: $aqua-strong;
+  }
+}
