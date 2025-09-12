@@ -74,7 +74,7 @@
       :start-at 75
       :thickness 5
       :class class
-      :tooltip {prepended-tooltip == EWW_BATTERY?.[""]? tooltip + " %"+ round(value, 2) : prepended-tooltip + "" + tooltip + " %"+ round(value, 2) }
+      :tooltip {prepended-tooltip == ``? tooltip + " %"+ round(value, 2) : prepended-tooltip + "" + tooltip + " %"+ round(value, 2) }
       (label
         :class "dot"
         :limit-width 2
@@ -118,9 +118,9 @@
 
         (usage-percentage :value {( (EWW_RAM?.["used_mem"]/EWW_RAM?.["total_mem"]) * 100 )} :class "ram" :tooltip "ram usage")
         (usage-percentage :value { EWW_CPU?.["avg"] } :class "cpu" :tooltip "cpu usage")
-        (box ; since eww doesn't like us having basic features to detect null except the '?:' we have to use this mess
-        :active {EWW_BATTERY?.["total_avg"] == EWW_BATTERY?.[""]? false : true}
-        :visible {EWW_BATTERY?.["total_avg"] == EWW_BATTERY?.[""]? false : true}
+        (box ; got good
+        :active {EWW_BATTERY==``? false : true }
+        :visible {EWW_BATTERY==``? false : true }
         (usage-percentage :value { EWW_BATTERY?.["total_avg"] } :class "battery" :tooltip "battery usage" :prepended-tooltip { EWW_BATTERY?.["BAT0"]["status"] } ))
     )
 )
