@@ -1,5 +1,10 @@
 (defvar user 'whoami')
 
+(defpoll day0 :interval "60m" `curl -s "wttr.in/London?0&format=%c"`)
+(defpoll day1 :interval "60m" `curl -s "wttr.in/London?1&format=%c"`)
+(defpoll day0-temp :interval "60m" `curl -s "wttr.in/London?format=j1" | jq -r '.weather[0].maxtempC + "°C"'`)
+(defpoll day1-temp :interval "60m" `curl -s "wttr.in/London?format=j1" | jq -r '.weather[1].maxtempC + "°C"'`)
+
 (defwidget profile []
     (box :halign "start" :valign "start" :class "profile"
         ( label :text {get_env("USER")}
@@ -10,10 +15,16 @@
 
 (defwidget datetime []
     (box :halign "start" :valign "start" :class "datetime"
-    (label :text {formattime(EWW_TIME, "%H:%M | %-H %A %b | %m/%d/%Y")} )
+    (label :text {formattime(EWW_TIME, "%H:%M | %A %-H %b | %m/%d/%Y")} )
     )
 )
 
+(defwidget weather-info [temp day class]
+    (box :class {class} :orientation "h" :space-evenly true :halign "end"
+        (label :halign "fill" :justify "left" :class "weather-day" :text {day})
+        (label :justify "left" :halign "fill" :class "weather-temp" :text {temp})
+    )
+)
 
 (defwindow desktop
     :monitor 0
@@ -24,17 +35,31 @@
             :anchor "top left")
     :stacking "bg"
     :exclusive false
-    (centerbox
+    (box
+    :space-evenly false
     :class "window"
     :orientation "v"
         (box :class "top-info"
-            :space-evenly false
+            :space-evenly true
             :halign "fill"
             :valign "start"
+            (box :halign "start"
+            :space-evenly false
             (profile)
             (datetime)
+            )
+
+            (box :halign "end"
+            (weather-info :class "weather-info-today" :temp day0-temp :day "Today")
+            (weather-info :class "weather-info-tomorrow" :temp day1-temp :day "Tommorow"))
         )
-        (box)
+        (box :orientation "v"
+            :valign "start"
+            :halign "fill"
+            (box :orientation "h"
+                :class "weather-table"
+            )
+        )
         (box)
     )
 )

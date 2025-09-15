@@ -46,3 +46,53 @@
     color: $aqua-strong;
   }
 }
+
+.weather-day,
+.weather-temp {
+  background-color: $bg1;
+}
+
+.weather-temp {
+  font-size: 1.5em;
+  color: $aqua-strong;
+  border: 3px solid $aqua-strong;
+  border-left-width: 0px;
+  border-top-right-radius: 2em;
+  margin-right: 0.5em;
+}
+
+.weather-day {
+  font-size: 1.5em;
+  color: $blue-muted;
+  padding-left: 0.7em;
+  padding-right: 0.4em;
+  border: 3px solid $aqua-strong;
+  border-right-width: 0px;
+  border-top-left-radius: 2em;
+}
+
+.weather-info-tomorrow {
+
+  .weather-day,
+  .weather-temp {
+    background-color: $bg1;
+  }
+
+  .weather-temp {
+    font-size: 1.5em;
+    color: $aqua-strong;
+    border: 3px solid $aqua-strong;
+    border-left-width: 0px;
+    border-top-right-radius: 2em;
+    margin-right: 0.5em;
+  }
+
+  .weather-day {
+    font-size: 1.5em;
+    color: $blue-muted;
+    padding-left: 0.7em;
+    border: 3px solid $aqua-strong;
+    border-right-width: 0px;
+    border-top-left-radius: 2em;
+  }
+}
