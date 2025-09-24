@@ -1,3 +1,5 @@
+(defvar user 'whoami')
+
 (deflisten workspaces :initial "[]"
  "./scripts/workspaces.sh")
 
@@ -5,8 +7,13 @@
   :initial "0"
   `./scripts/volume.sh`)
 
+(deflisten muted
+  :initial ' '
+  `./scripts/muted.sh`)
+
 (defvar volume-bar-revealed false)
 (defvar power-menu-revealed false)
+
 
 (defwidget ws [?reverse]
  (box :class "workspaces"
@@ -133,7 +140,8 @@
   :vexpand true
   :orientation "v"
   :space-evenly false
-  (label :vexpand false :hexpand false :valign "start" :halign "fill" :class "volume" :show-truncated false :text {volume>=100 ? volume : volume+"%"})
+  (label :vexpand false :hexpand false :valign "start" :halign "fill" :class "volume" :show-truncated false :text
+  {volume=="MUTED" ? " " : volume>=100 ? volume : volume+"%" })
   (poweroptions)
   ))
 
@@ -150,7 +158,7 @@
    :hexpand true
    :vexpand true
    )
-   (clock :separator "━━" :spacing -7)
+   (clock :separator "━━" :spacing -7) ;; use a box drawing character fill in the margin
    (box
    :valign "center"
    :halign "fill"
