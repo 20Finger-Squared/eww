@@ -1,42 +1,13 @@
 @use "../colors.scss" as *;
 
-.window {
+.desktopBar {
+  padding: 5px;
   background-color: $bg1;
-  background: $bg1;
-  background-color: transparentize($bg1, 0.15);
-  border: 0.2em solid $bg3;
-  border-top-left-radius: 3em;
-  border-top-right-radius: 3em;
-  border-bottom-left-radius: 0.6em;
-  border-bottom-right-radius: 0.6em;
-  padding: 0.6em;
-}
-
-.top-info {
-  background-color: $bg2;
-  border-top-left-radius: 2em;
-  border-top-right-radius: 2em;
-
-}
-
-.profile {
-  border: 3px solid $aqua-strong;
-  border-right-width: 0px;
-  border-top-left-radius: 2em;
-  background-color: $bg1;
-
-  label {
-    font-size: 1.5em;
-    margin: 0.5em;
-    font-weight: bold;
-    color: $aqua-strong;
-  }
+  border-radius: 5px;
+  border: 5px solid $bg2;
 }
 
 .datetime {
-  border: 3px solid $aqua-strong;
-  border-left-width: 0px;
-  border-top-right-radius: 2em;
   background-color: $bg1;
 
   label {
@@ -47,52 +18,8 @@
   }
 }
 
-.weather-day,
-.weather-temp {
-  background-color: $bg1;
-}
-
-.weather-temp {
-  font-size: 1.5em;
-  color: $aqua-strong;
-  border: 3px solid $aqua-strong;
-  border-left-width: 0px;
-  border-top-right-radius: 2em;
-  margin-right: 0.5em;
-}
-
-.weather-day {
-  font-size: 1.5em;
-  color: $blue-muted;
-  padding-left: 0.7em;
-  padding-right: 0.4em;
-  border: 3px solid $aqua-strong;
-  border-right-width: 0px;
-  border-top-left-radius: 2em;
-}
-
-.weather-info-tomorrow {
-
-  .weather-day,
-  .weather-temp {
-    background-color: $bg1;
-  }
-
-  .weather-temp {
-    font-size: 1.5em;
-    color: $aqua-strong;
-    border: 3px solid $aqua-strong;
-    border-left-width: 0px;
-    border-top-right-radius: 2em;
-    margin-right: 0.5em;
-  }
-
-  .weather-day {
-    font-size: 1.5em;
-    color: $blue-muted;
-    padding-left: 0.7em;
-    border: 3px solid $aqua-strong;
-    border-right-width: 0px;
-    border-top-left-radius: 2em;
-  }
+.profile {
+  font-weight: bold;
+  color: $fg-strong;
+  font-size: 1.7em;
 }

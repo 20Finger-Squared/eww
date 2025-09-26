@@ -1,41 +1,33 @@
+(defpoll usr :initial "" :interval "20000s"
+"echo $\{USER^\}"
+)
+
 (defwidget profile []
-    (box :halign "start" :valign "start" :class "profile"
-        ( label :text {get_env("USER")}
-        :halign "start"
-        :valign "center")
+    (box :halign "start" :valign "center" :class "profile"
+        ( label :text {usr})
     )
 )
 
 (defwidget datetime []
-    (box :halign "start" :valign "start" :class "datetime"
+    (box :halign "center" :valign "start" :class "datetime"
     (label :text {formattime(EWW_TIME, "%H:%M | %A %-H %b | %m/%d/%Y")} )
     )
 )
 
 (defwindow desktop
     :monitor 0
-    :geometry (geometry :x "1%"
+    :geometry (geometry
+            :x "1%"
             :y "5%"
-            :width  "40%"
-            :height "90%"
-            :anchor "top left")
+            :width  "90%"
+            :height "5%"
+            :anchor "center top")
     :stacking "bg"
     :exclusive false
-    (box
-        :space-evenly false
-        :class "window"
-        :orientation "v"
-        (box :class "top-info"
-            :space-evenly true
-            :halign "fill"
-            :valign "start"
-            (box :halign "start"
-            :space-evenly false
-            (profile)
-            (datetime)
-            )
-            (box :halign "end")
-        )
+    (centerbox
+        :class "desktopBar"
+        (box (profile))
+        (box (datetime))
         (box)
     )
 )
