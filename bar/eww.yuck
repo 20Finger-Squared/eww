@@ -19,16 +19,24 @@
  (box :class "workspaces"
   :spacing 5
   :orientation "v"
+(defwidget ws [?reverse ?show-only-current]
+ (box :class {show-only-current==``?
+     "workspaces":
+     show-only-current?
+        "current-workspace": "workspaces"}
+    :spacing 0 :orientation "v"
   ; If 'reverse' is empty, default to the normal workspace order.
   ; Otherwise, use the value of 'reverse' to decide whether to reverse.
   (for workspace in { reverse != "" ? reverse ? jq(workspaces, "reverse") : workspaces : workspaces}
    (eventbox
+    :active  {show-only-current==``?true:show-only-current? workspace?.['focused']:true}
+    :visible {show-only-current==``?true:show-only-current? workspace?.['focused']:true}
     :cursor "pointer"
-    :onclick "swaymsg workspace ${workspace.name}"
-    :onrightclick "swaymsg move workspace ${workspace.name}; swaymsg workspace ${workspace.name}"
-    :onscroll {{}=="up" ? "swaymsg workspace ${workspace.name + 1}":"swaymsg workspace ${workspace.name - 1}"}
-    (label :text {workspace.name + ""}
-     :class {workspace.focused ? "WSfocused" : "WSunfocused"})))))
+    :onclick "swaymsg workspace ${workspace?.['name']}"
+    :onrightclick "swaymsg move workspace ${workspace?.['name']}; swaymsg workspace ${workspace?.['name']}"
+    :onscroll {{}=="up" ? "swaymsg workspace ${workspace?.['name'] + 1}":"swaymsg workspace ${workspace?.['name'] - 1}"}
+    (label :text {workspace?.['name'] + ""}
+     :class {workspace?.['focused'] ? "WSfocused" : "WSunfocused"})))))
 
 (defwidget poweroptions []
  (eventbox
