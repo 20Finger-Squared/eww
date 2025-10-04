@@ -5,16 +5,17 @@
 (deflisten volume :initial "0" `./scripts/volume.sh`)
 
 (deflisten workspaces :initial "[]" "./scripts/workspaces.sh")
+(defwidget ws [?reverse ?show-only-current ?left]
+ (box :class "${show-only-current==``? "workspaces":
+        show-only-current?
+            "current-workspace":
+            "workspaces"}${
+        left==``?
+            left:
+            left?
+                "-left":
+                ""}"
 
-(defwidget ws [?reverse]
- (box :class "workspaces"
-  :spacing 5
-  :orientation "v"
-(defwidget ws [?reverse ?show-only-current]
- (box :class {show-only-current==``?
-     "workspaces":
-     show-only-current?
-        "current-workspace": "workspaces"}
     :spacing 0 :orientation "v"
   ; If 'reverse' is empty, default to the normal workspace order.
   ; Otherwise, use the value of 'reverse' to decide whether to reverse.
