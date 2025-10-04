@@ -174,16 +174,6 @@
         :space-evenly false
             (clock :separator "━━" :spacing -7))) ;; use a box drawing character fill in the margin
 
-(defwindow barWindow
-:monitor 0
-:geometry (geometry :x "0%"
-:y "20px"
-:width "30px"
-:height "100%"
-:anchor "center right")
-:stacking "fg"
-:exclusive true
-( bar ))
 (defwidget bottom [left]
     (box :class {left?"left-bottom":"bottom"}
         :valign "end"
@@ -195,3 +185,21 @@
         (ws :show-only-current show-only-current-workspace :left left)
         (pc-usage)
         (systray :height 76 :hexpand true :orientation "v" :spacing 0 :space-evenly false :icon-size 18)))
+
+(defwindow bar [bar-on-left-side]
+    :monitor 0
+    :geometry (geometry :x "0%"
+        :y "20px"
+        :width "0px"
+        :height "30%"
+        :anchor {bar-on-left-side?"center left":"center right"})
+    :exclusive true
+    (box :class "bar" ; probably could've use a center-box but i forgot about it when i made this widget and this works
+        :orientation "v"
+        :hexpand true
+        :space-evenly false
+        :vexpand true
+        (top)
+        (middle)
+        (transform :translate-y 12
+        (bottom :left bar-on-left-side))))
