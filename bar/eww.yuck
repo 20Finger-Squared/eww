@@ -164,27 +164,15 @@
   {volume=="MUTED" ? " " : volume>=100 ? volume : volume==0? " ":volume+"%" })
   ))
 
- (defwidget middle []
-  (box :class "middle"
-   :valign "center"
-   :halign "fill"
-   :hexpand true
-   :vexpand true
-   :orientation "v"
-   (box
-   :valign "center"
-   :halign "fill"
-   :hexpand true
-   :vexpand true
-   )
-   (clock :separator "━━" :spacing -7) ;; use a box drawing character fill in the margin
-   (box
-   :valign "center"
-   :halign "fill"
-   :hexpand true
-   :vexpand true
-   )
-  ))
+(defwidget middle []
+    (box :class "middle"
+        :valign "fill"
+        :orientation "v"
+        :halign "fill"
+        :hexpand true
+        :vexpand true
+        :space-evenly false
+            (clock :separator "━━" :spacing -7))) ;; use a box drawing character fill in the margin
 
  (defwidget bottom []
   (box :class "bottom"
@@ -219,3 +207,14 @@
 :stacking "fg"
 :exclusive true
 ( bar ))
+(defwidget bottom [left]
+    (box :class {left?"left-bottom":"bottom"}
+        :valign "end"
+        :halign "fill"
+        :hexpand true
+        :vexpand true
+        :space-evenly false
+        :orientation "v"
+        (ws :show-only-current show-only-current-workspace :left left)
+        (pc-usage)
+        (systray :height 76 :hexpand true :orientation "v" :spacing 0 :space-evenly false :icon-size 18)))
