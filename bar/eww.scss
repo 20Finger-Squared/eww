@@ -14,8 +14,14 @@ tooltip {
   border: 1px solid $bg3;
 }
 
+.background.bar {
+  // makes the corners on the bar transparent so you don't have the black corners
+  background-color: rgba(0, 0, 0, 0.0);
+}
+
 .bar {
-  background-color: $bg-muted;
+  background-color: $bg1;
+  border-radius: 55px;
   color: $fg1;
 }
 
@@ -89,6 +95,30 @@ tooltip {
   }
 }
 
+.current-workspace {
+  border-radius: 2px;
+
+  .WSfocused {
+    font-size: 1.2em;
+    background-color: $bg1;
+    color: $yellow-strong;
+    border-left: 3px solid $fg4;
+    border-left-color: $yellow-strong;
+  }
+}
+
+.current-workspace-left {
+  border-radius: 2px;
+
+  .WSfocused {
+    font-size: 1.2em;
+    background-color: $bg1;
+    color: $yellow-strong;
+    border-right: 3px solid $fg4;
+    border-right-color: $yellow-strong;
+  }
+}
+
 .workspaces {
   border-radius: 2px;
 
@@ -109,26 +139,41 @@ tooltip {
   }
 }
 
-.poweroff {
+.workspaces-left {
+  border-radius: 2px;
+
+  .WSfocused,
+  .WSunfocused {
+    font-size: 1.2em;
+    background-color: $bg1;
+    border-right: 3px solid $fg4;
+  }
+
+  .WSfocused {
+    color: $yellow-strong;
+    border-right-color: $yellow-strong;
+  }
+
+  .WSunfocused {
+    color: $fg4;
+  }
+}
+
+.poweroff,
+.reboot,
+.logout {
   font-size: 1.4em;
   margin: 2px;
-  margin-right: 3px;
-  margin-bottom: 15px;
+}
+
+.poweroff {
   color: $red-strong;
 }
 
 .reboot {
-  font-size: 1.4em;
-  margin: 2px;
-  margin-bottom: 10px;
-  margin-right: 3px;
   color: $aqua-strong;
 }
 
 .logout {
-  font-size: 1.4em;
-  margin: 2px;
-  margin-right: 3px;
-  margin-bottom: 10px;
   color: $yellow-strong;
 }
