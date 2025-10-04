@@ -1,14 +1,10 @@
+
+
 (defvar user 'whoami')
 
-(deflisten workspaces :initial "[]"
- "./scripts/workspaces.sh")
+(deflisten volume :initial "0" `./scripts/volume.sh`)
 
-(deflisten volume
-  :initial "0"
-  `./scripts/volume.sh`)
-
-
-
+(deflisten workspaces :initial "[]" "./scripts/workspaces.sh")
 
 (defwidget ws [?reverse]
  (box :class "workspaces"
