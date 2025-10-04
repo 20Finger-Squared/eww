@@ -132,30 +132,36 @@
         :valign "end"
         :vexpand true
         :hexpand true
-        :height 50
+        :space-evenly false
+        :height 0
         :orientation "v"
         :spacing 0
 
-        (usage-percentage :value {( (EWW_RAM?.["used_mem"]/EWW_RAM?.["total_mem"]) * 100 )} :class "ram" :tooltip "ram usage")
-        (usage-percentage :value { EWW_CPU?.["avg"] } :class "cpu" :tooltip "cpu usage")
+        (usage-percentage :value {(EWW_RAM?.["used_mem"]/EWW_RAM?.["total_mem"]) * 100} :class "ram" :tooltip "ram usage")
+        (usage-percentage :value {EWW_CPU?.["avg"]} :class "cpu" :tooltip "cpu usage")
+
         (box ; got good
         :active {EWW_BATTERY==``? false : true }
         :visible {EWW_BATTERY==``? false : true }
-        (usage-percentage :value { EWW_BATTERY?.["total_avg"] } :class "battery" :tooltip "battery usage" :prepended-tooltip { EWW_BATTERY?.["BAT0"]["status"] } ))
+        (usage-percentage
+            :value {EWW_BATTERY==``?0: EWW_BATTERY?.["total_avg"] ?:0 }
+            :class "battery"
+            :tooltip "battery usage"
+            :prepended-tooltip {EWW_BATTERY==``?0: EWW_BATTERY?.["BAT0"]["status"]?:0 } ))
     )
 )
 
 (defwidget top []
  (box :class "top"
-  :valign "start"
+  :valign "end"
   :halign "fill"
-  :hexpand true
+  :hexpand false
   :vexpand true
   :orientation "v"
   :space-evenly false
-  (label :vexpand false :hexpand false :valign "start" :halign "fill" :class "volume" :show-truncated false :text
-  {volume=="MUTED" ? " " : volume>=100 ? volume : volume+"%" })
   (poweroptions)
+  (label :width 30 :xalign 0.5 :vexpand false :hexpand true :valign "end" :halign "center" :class "volume" :show-truncated false :text
+  {volume=="MUTED" ? " " : volume>=100 ? volume : volume==0? " ":volume+"%" })
   ))
 
  (defwidget middle []
