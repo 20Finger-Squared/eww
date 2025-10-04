@@ -11,7 +11,6 @@
   :initial ' '
   `./scripts/muted.sh`)
 
-(defvar volume-bar-revealed false)
 (defvar power-menu-revealed false)
 
 
