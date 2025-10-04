@@ -1,5 +1,7 @@
+; config vars that change how the bar looks
+(defvar show-only-current-workspace true)
 
-
+; ^_^ code bellow
 (defvar user 'whoami')
 
 (deflisten volume :initial "0" `./scripts/volume.sh`)
