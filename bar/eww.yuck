@@ -174,29 +174,6 @@
         :space-evenly false
             (clock :separator "━━" :spacing -7))) ;; use a box drawing character fill in the margin
 
- (defwidget bottom []
-  (box :class "bottom"
-   :valign "end"
-   :halign "fill"
-   :hexpand true
-   :vexpand true
-   :orientation "v"
-   (pc-usage)
-   (ws :reverse false)
-  ))
-
-    (defwidget bar []
-     ; probably could've use a center-box but i forgot about it when i made this widget and this works
-     (box :class "bar"
-      :orientation "v"
-      :hexpand true
-      :vexpand true
-      (top)
-      (middle)
-      (bottom)
-     )
-    )
-
 (defwindow barWindow
 :monitor 0
 :geometry (geometry :x "0%"
