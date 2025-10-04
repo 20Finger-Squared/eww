@@ -42,31 +42,43 @@
   :cursor "pointer"
   :onhover {"eww update power-menu-revealed=true -c" + EWW_CONFIG_DIR}
   :onhoverlost {"eww update power-menu-revealed=false -c" + EWW_CONFIG_DIR}
+  (transform :translate-x "-5%"
   (box
    :orientation "v"
    :space-evenly false
-   (eventbox
-      :cursor "pointer"
-      :onclick "poweroff"
-   (label :text "⏻"
-    :class "poweroff"
-    :halign "fill"
-    :valign "center"))
+   :hexpand true
+   :vexpand true
    (revealer
-    :transition "slideup"
-    :reveal power-menu-revealed
-    :duration "400ms"
-    (box :orientation "v" :spacing 5 :space-evenly false :valign "start" :halign "fill"
-     (eventbox :cursor "pointer" :onclick "reboot"
-      (label :text ""
-       :class "reboot"
-       :halign "fill"
-       :valign "center"))
-     (eventbox :cursor "pointer" :onclick "swaymsg exit"
-      (label :text "󰍃"
-       :class "logout"
-       :halign "fill"
-       :valign "center")))))))
+          :transition "slidedown"
+          :reveal power-menu-revealed
+          :duration "400ms"
+          (box :orientation "v" :spacing 5 :space-evenly false :valign "start" :halign "fill"
+
+          (eventbox :cursor "pointer" :onclick "reboot"
+
+          (label :text ""
+              :class "reboot"
+              :halign "center"
+              :valign "start"))
+
+          (transform :translate-x "7%"
+          (eventbox :cursor "pointer" :onclick "swaymsg exit"
+              (label :text "󰍃"
+              :class "logout"
+              :halign "center"
+              :valign "start")))))
+
+   (transform :translate-x "-7%"
+   (eventbox
+     :cursor "pointer"
+     :onclick "poweroff"
+     (label :text "⏻"
+       :justify "center"
+       :class "poweroff"
+       :halign "center"
+       :valign "start")))
+
+   ))))
 
 (defwidget clock [separator spacing]
       (box
