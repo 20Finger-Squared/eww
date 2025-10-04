@@ -11,7 +11,6 @@
   :initial ' '
   `./scripts/muted.sh`)
 
-(defvar power-menu-revealed false)
 
 
 (defwidget ws [?reverse]
@@ -37,11 +36,12 @@
     (label :text {workspace?.['name'] + ""}
      :class {workspace?.['focused'] ? "WSfocused" : "WSunfocused"})))))
 
+(defvar power-menu-revealed false)
 (defwidget poweroptions []
  (eventbox
   :cursor "pointer"
-  :onhover "eww update power-menu-revealed=true"
-  :onhoverlost "eww update power-menu-revealed=false"
+  :onhover {"eww update power-menu-revealed=true -c" + EWW_CONFIG_DIR}
+  :onhoverlost {"eww update power-menu-revealed=false -c" + EWW_CONFIG_DIR}
   (box
    :orientation "v"
    :space-evenly false
