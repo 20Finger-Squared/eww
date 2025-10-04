@@ -7,9 +7,6 @@
   :initial "0"
   `./scripts/volume.sh`)
 
-(deflisten muted
-  :initial ' '
-  `./scripts/muted.sh`)
 
 
 
